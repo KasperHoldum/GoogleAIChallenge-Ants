@@ -1,0 +1,62 @@
+\subsection{Spreading Out Ants}
+The final objective of the game is to eliminate as many enemy hills as possible. To achieve this goal we need to know the locations of the hills and have a large number of ants to attack them. Both require that we explore the map. Since food randomly spawns on the entire map (taking symmetry into account) we would optimally want to have sight of every single field on the map, and minimize the distance from our closests ant to each field. This is not possible, at least in the early game, due to lack of ants.
+
+We have tried two approaches. One that focused on which part of the map that is not currently visible to us, and the other which ignores visibility and simply uses a simple model of representing ants as magnetic entities that repel each other.
+
+\subsubsection{Visibility Spread Out}
+Our first approach is to send every ant to the spot closest to that ant which is not visible. This approach requires information about which fields are visible as well as a method to find the nearest invisible field and a method to find invisible fields in a certain radius of a field. These two operations are provided by the Kd-tree and covered in section~\ref{sec:datastructures}.
+
+The basic algorithm iterates over all the available ants (ants that has not been occupied elsewhere), finds the closest invisible spot, tries to find a path to this spot and then issues an order for the ant to move there.
+
+
+\begin{algorithm}
+\caption{Visibility Spread Out}
+\label{alg:visibilityspreadout}
+\begin{algorithmic}
+\FOR{$i = 1 \to count(availableAnts)$} 
+\STATE $currentAnt \gets availableAnts[i]$
+\STATE $closestInvisibleSpot \gets findClosestInvisSpotTo(currentAnt)$
+\STATE $pathToGoal \gets findPath(currentAnt, closestInvisibleSpot)$
+
+
+\IF{pathToGoal != null}
+\STATE $moveAnt(currentAnt, pathToGoal.nextStep)$
+\ENDIF
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+The algorithm has been modified afterwards to improve several aspects. First of all, we have added caching so, that if an ant is still heading for the same location, then the whole path should not be recalculated. This issue is trickier than first expected though, since parts of the map might be discovered and invalidate the path. Likewise, ants might get in the way of the calculated path. However, once we finish the HPA data structure, this should (hopefully) no longer be an issue.
+
+The other issue, is the way the closest invisible spot is selected. Instead of just selecting the closest invisble spot, we have had success with instead selecting the closest invisible spot which has not been seen for some amount of turns.
+
+\subsubsection{Magnetic Spread Out}
+If an ant has nothing to do, we want it to go explore. But since an ant may only move a single tile per turn, generating and storing a path to some destination becomes slow and ineffective, as many events may occur prior to that ant reaching its destination, making it a bad destination. Generating paths can also be very time consuming, so we wanted a way to spread out our ants without using too much time on it.
+
+The idea is quite simple; we make all our ants repel each other if they are in close proximity and unlike actual magnets they never attract each other. This repulsion should somehow scale with the distance between two ants, to allow some ants to be squeezed closer together. This will cause all the ants to eventually end up in an evenly spaced grid, covering most of the map, giving us as much information about food and enemy locations as possible. When we get new ants from eating food, the grid will automatically adjust and expand to match the new number of ants.
+
+The algorithm for this looks as follows:
+
+\begin{algorithm}
+\caption{Magnetic Spread Out}
+\label{alg:magneticspreadout}
+\begin{algorithmic}
+\STATE $antForce \gets 10$
+\FOR{$i = 1 \to count(availableAnts)$} 
+	\STATE $currentDirection \gets (0,0)$
+	
+	\FOR{$j = 1 \to count(antsInRange)$}
+		\STATE $scaledForce \gets antForce / distanceTo(ant[i],ant[j])$
+		\STATE $directionToJ \gets getVector(ant[j],ant[i])$
+		\STATE $currentDirection \gets currentDirection + directionToJ * scaledForce$
+	\ENDFOR
+
+	\STATE $currentDirection \gets normalize(currentDirection)$
+	\STATE $moveAntInDirection(ant[i], currentDirection)$
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}
+
+For assigning a direction for all our ants the running time of this approach can be as high as $O(N^2)$ (where N is the number of ants), which happens if all the ants were clumped up next to each other.
+
+Once the ants were able to behave in a fashion similar to magnets, we wanted to try and see if it was possible to make them perform other strategies by further extending the magnet concept. Since the repulsion is based on a positive number, we could easily add an auxilary "ant", or attraction point, who attracted other ants. Such attraction points could then be placed on food locations or in narrow choke points to safe guard an area. This does cause a few problems though, as many ants could potentially go for a single food and then end up repelling each other such no ant ever reached the food. For guarding choke points we would face much the same problem as we would simply have an area with high density of ants but this does not ensure that any of the ants are safe from attackers.

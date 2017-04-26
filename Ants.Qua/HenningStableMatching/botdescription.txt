@@ -1,0 +1,3 @@
+﻿same as Henning V1
+
+but food finding algorithm now use Gale-Shapley algorithm to match ant with foods

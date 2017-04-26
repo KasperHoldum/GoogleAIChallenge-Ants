@@ -1,0 +1,12 @@
+﻿for each food, assign an ant. all ants not assigned go explore with simple direction priority (north, east, south, west if possible - in that order )
+
+pros:
+	only a single ant is assigned to each food
+	no idle ants
+cons:
+	the assignment of ants to food is suboptimal
+	the exploring algorithm is too stupid. Too many ants moving the same direction instead of spreading out
+	ants getting stuck against water terrain and thus being rendered useless until they are assigned food task
+
+improvments:
+	fixed: if several foods has the same ant being closest then only one of those foods will be assigned an ant to.

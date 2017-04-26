@@ -1,0 +1,29 @@
+\subsection{Hill Defence}
+When an ant moves on top of an enemy hill, the hill is destroyed and can no longer produce ants. Furthermore the owner loses two points.
+
+We work with two zones of danger: Very close and thus dangerous and medium close, possibly dangerous. If an enemy ant is in very close proximity to one our hills, we assign the closest ant to move next to this ant which leads to a one to one trade off. If enemy ants are in medium range we assign an ant to move close to our hill for each enemy ant in this zone.
+
+\begin{algorithm}
+\caption{Simple Hill Defence}
+\label{alg:simplehilldefence}
+\begin{algorithmic}
+\FOR{$i = 1 \to count(myHills)$} 
+\STATE $currentHill \gets myHills[i]$
+\STATE $dangerousAnts \gets enemyAnts.FindInRange(currentHill, dangerThresholdRange)$
+	\FOR{$j = 1 \to count(dangerousAnts)$} 
+	\STATE $nearestAvailableAnt \gets myAvailableAnts.FindNearest(currentHill)$
+	\STATE $goal$
+
+	
+	\IF{$distanceTo(dangerousAnts[j], currentHill) > criticalThreshold$}
+		\STATE $goal \gets dangerousAnts$
+	\ELSE
+		\STATE $goal \gets myHill$
+	\ENDIF
+
+	\STATE $pathToGoal \gets findPath(nearestAvailableAnt, goal)$
+	\STATE $moveAntAlongPath(nearestAvailableAnt, pathToGoal)$
+	\ENDFOR
+\ENDFOR
+\end{algorithmic}
+\end{algorithm}

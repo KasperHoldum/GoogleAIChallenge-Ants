@@ -1,0 +1,11 @@
+﻿for each ant look at nearest food at move wards it. Using A* with manhatten heuristic to find path to food.
+
+
+pros:
+	Quickly gather all food.
+	Ants are close to eachother and not very vulnerable
+
+cons: 
+	several ants move toward same food
+	No exploring, and thus lots of idle ants when no visible food
+	path finding taking too long since we first have to find closest food, and then do path finding for ALL ants. MEans that we have to stop which causes idle ants

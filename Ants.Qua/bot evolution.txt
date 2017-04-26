@@ -1,0 +1,7 @@
+17-07-2011: HunterBot (default bot)
+18-07-2011: FirstBot
+25-07-2011: TestBot
+29-07-2011: HenningV1
+xx-08-2011: HenningV2
+xx-08-2011: PolarizedBot
+xx-09-2011: HenningStableMatching

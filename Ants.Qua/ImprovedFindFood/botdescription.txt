@@ -1,0 +1,4 @@
+﻿same as HenningStableMatching
+
+The find food algorith, however, has been changed so that each food only tries to pair up with ants within a certain radius
+

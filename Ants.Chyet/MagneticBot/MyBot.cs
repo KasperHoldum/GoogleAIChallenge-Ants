@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Ants.DataStructures.BinarySpacePartitioning;
+using Ants.Operations.FindFood;
+using Ants.Operations.SpreadOut;
+
+namespace Ants.Chyet.MagneticBot
+{
+    class MyBot : Bot
+    {
+        private readonly Logging timeLogging = new Logging("MagneticBot time");
+        private readonly AntOperation findFood;
+        private readonly AntOperation spreadOut;
+        public MyBot() : base("Magnetic")
+        {
+            findFood = new ImprovedStableMarriageFindFood(this);
+            spreadOut= new MagneticSpreadOut(this);
+        }
+
+        public override void DoTurn(GameState gameState)
+        {
+            Log.Log("Starting turn " + gameState.Turn);
+            timeLogging.Log(string.Format("[{0}] turn: {1}", DateTime.Now, gameState.Turn));
+
+            DateTime before = DateTime.Now;
+            this.Update(gameState);
+
+            timeLogging.Log(string.Format("[{0} ms] update finished", (int)(DateTime.Now - before).TotalMilliseconds));
+
+            before = DateTime.Now;
+            findFood.ExecuteOperation(this.AvailableAnts());
+            timeLogging.Log(string.Format("[{0} ms] findfood finished", (int)(DateTime.Now - before).TotalMilliseconds));
+
+            before = DateTime.Now;
+            spreadOut.ExecuteOperation(this.AvailableAnts());
+            timeLogging.Log(string.Format("[{0} ms] spreadout finished", (int)(DateTime.Now - before).TotalMilliseconds));
+        }
+    }
+}

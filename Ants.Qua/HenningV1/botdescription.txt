@@ -1,0 +1,74 @@
+﻿Der kommer mad løbende så jeg tror vi starter med en simple defensiv madsøgnings bot, som vi så senere kan bygge noget aggressivitet på.
+ 
+Antager at du har en algoritme for at finde korteste vej til et felt (afstand er ikke er jo ikke optimalt da man ikke kan gå på skrå og pga. vandet)
+ 
+Madsøgningsalgoritme (inkl. beskyttelse ):
+ 
+Kør 1 til 4 så længe der er ikke låst mad.
+1.       Find myre tættest på mad og lad den gå mod maden.
+
+2.       Check at vi ikke allerede har flyttet en myre til dette felt vi går til – vi er ligeglad med om der allerede står en for den vil vi senere flytte.
+
+3.       Lås maden således at andre myre ikke går mod denne.
+
+4.       Check om der er risiko for at død i det felt vi flytter ind i når de andre myre flytter? Hvis Ja:
+
+a.       Check om andre af vores myre der kan flytte således at vi har overtal – hvis ja flyt dem (husk check at vi ikke ender med to myre i samme felt)
+
+b.      Hvis nej – drop flyt vælg en anden retning hvor der ikke er kamp (eller hvor der kan skabes overtal) - stadig mod maden men ellers frit; evt. også intet flyt hvis det er det sikre (mad oplåses igen således at andre af vores myre kan gå mod dette – dette er et kamp område så vi skal bruge overtal J).
+
+c.       Hvis kamp ikke kan undgås så vælg felt hvor det bliver en 1:1
+
+ 
+Når der ikke er mere mad sprede vi os ud:
+1.       Find myre tættest på et felt vi ikke kan se / kommer til at se pga. de andre myres ryk (hvis der er lighed så er det det felt det er længst siden vi har haft sight på der skal vælges) og gå mod feltet.
+
+2.       Check at vi ikke allerede har flyttet en myre til dette felt vi går til – vi er ligeglad med om der allerede står en for den vil vi senere flytte.
+
+3.       Check om der er risiko for at død i det felt vi flytter ind i når de andre myre flytter? Hvis Ja:
+
+a.       Check om andre af vores myre der kan flytte således at vi har overtal – hvis ja flyt dem (husk check at vi ikke ender med to myre i samme felt)
+
+b.      Hvis nej – drop flyt vælg en anden retning hvor der ikke er kamp (eller hvor der kan skabes overtal) - stadig mod det ukendte felt men ellers frit; evt. også intet flyt hvis det er det sikre).
+
+c.       Hvis kamp ikke kan undgås så vælg felt hvor det bliver en 1:1
+
+4.       Forsæt indtil vi løber tør for myre eller vi har sigt på alle felter
+
+Lidt flere tanker.
+ 
+En god logik at få på første step i madsøgningen er at hvi en fjende er 1 felt fra maden og vi er to skal vi gå væk for det næste der sker et at fjende får en myre og så riskere vi at han er 2 mod 1 over for os L
+ 
+3 i den første kan nok med fordel justeres til følgende:
+ 
+Hvis vores myre er tættest på maden end fjendtlige myre, så lås maden således at andre myre ikke går mod denne. Hvis dette er anden myre vi sender mod maden, så låses dog under alle omstændigheder.
+
+ 
+4.b i den første sektion ændres til følgende (lidt mere aggressiv tilgang til at sikre at vi får maden):
+ 
+Hvis nej – drop flyt (medmindre det bringer os så tæt på maden at vi får en ny myre med det samme og at vi maksimalt kan få en 1:1 mod os – samtidigt skal maden stadig låses op sålede at vi får flere myre på vej mod denne) vælg en anden retning hvor der ikke er kamp (eller hvor der kan skabes overtal) - stadig mod maden men ellers frit; evt. også intet flyt hvis det er det sikre (mad oplåses igen således at andre af vores myre kan gå mod dette – dette er et kamp område så vi skal bruge overtal J).
+ 
+Så har jeg også fundet et Attackmode
+ 
+Der skiftes til dette nå vi kan ses minimum 90% af kortet og vi har 130% myre i forhold til de kendte modstandere (værdierne skal potentielt ændres).
+ 
+Der køre 3 algoritmer: madsøgning, gå i kamp, udspredning
+ 
+Madsøgning er den samme som i ikke attack mode bortset fra at vi acceptere 1:1 kampe
+ 
+Når der ikke er mere mad eksekveres ”Gå i kamp”. Denne køres for alle myre der er inden for 10 ryk af en fjendtlig myre (de 10 skal nok øges efter hånden som vi kommer mere i overtal)
+ 
+·         Gå mod nærmeste fjende
+
+·         Check om der er risiko for at egen død i det felt vi flytter ind i når de andre myre flytter? Hvis Ja:
+
+a.       Check om andre af vores myre der kan flytte således at vi har overtal – hvis ja flyt dem (husk check at vi ikke ender med to myre i samme felt)
+
+b.      Hvis nej – drop flyt vælg en anden retning hvor der ikke er kamp (eller hvor der kan skabes overtal). Felterne prioriteres på følgende møde - mod fjende hvis muligt, stå stille, gå væk fra fjenden.
+
+c.       Hvis kamp ikke kan undgås så vælg felt hvor det bliver en 1:1
+
+ 
+Udspredning er den samme som ikke attackmode
+ 
+Sig endelige til hvis der er noget jeg skal gå dybere ned i for at sætte mere køb på algoritmerne.

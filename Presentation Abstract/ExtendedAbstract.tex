@@ -1,0 +1,70 @@
+\documentclass[a4paper]{llncs}
+
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{hyperref}
+
+\begin{document}
+
+\author{Kasper Hjorth Holdum \and Christian Kays{\o}-R{\o}rdam \and Christopher {\O}stergaard de Haas}
+
+
+\title{Google AI Challenge 2011: Ants}
+
+\institute{DTU Informatics}
+\date{December 2011}
+\maketitle
+\thispagestyle{plain} \pagestyle{plain}
+
+\smallskip
+
+\begin{abstract}
+This year's Google AI Challenge is a multiplayer game on a 2-dimensional map. All players are given a short time frame each turn to do calculation and issue orders to all owned units. This paper identifies the key problems for a well performing AI system. Solutions to each problem are proposed and discussed.
+
+\end{abstract}
+
+\medskip
+
+\input{Introduction.tex}
+\input{Problem.tex}
+\input{Tools/Tools.tex}
+\input{Bot/Bot.tex}
+\input{Conclusion.tex}
+
+
+
+\begin{thebibliography}{1}
+
+\bibitem{BMS2004}
+A. Botea, M. M\"{u}ller, and J. Schaeffer.  
+\newblock Near Optimal Hierarchical Path-Finding.
+\newblock Journal of Game Development, vol. 1, no. 1, 7-28, 2004.
+\bibitem{KT2006}
+J. Kleinberg and Eva Tardos.
+\newblock Algorithm Design.
+\newblock Pearson International Edition 2006.
+\bibitem{GS1962}
+D. Gale and L. S. Shapley.
+\newblock College Admissions and the Stability of Marriage.
+\newblock American Mathematical Monthly 69, 9-14, 1962.
+
+\bibitem{Bent1975}
+J. L. Bentley.
+\newblock Multidimensional binary search trees used for associative searching.
+\newblock Communications of the ACM, 18(9):509-517, 1975.
+
+\bibitem{Sharat}
+Chandran, Sharat.
+\newblock Introduction to kd-trees.
+\newblock University of Maryland Department of Computer Science, http://www.cs.umd.edu/class/spring2002/cmsc420-0401/pbasic.pdf, 2002.
+\end{thebibliography}
+\section*{Appendix}
+\begin{figure}[htb]
+\centering
+\includegraphics[keepaspectratio, width=350px]{Tools/hpavisualizer.png}
+\caption{A screenshot of the HPA visualizer. Green background is walkable terrain, dark blue is water and unwalkable. The clusters are visualized with black rectangles. The red rectangles are the transit points between clusters. The blue line between transit points are the internal cluster connections. }
+\label{fig:awesome_image}
+\end{figure}
+
+\end{document}

@@ -1,0 +1,8 @@
+\subsection{Finding Food}
+Food spawns randomly on the map at the beginning of every turn. Being able to effeciently collect food and build up an army of ants is one the key aspects of a good bot. Half of the work is done by initially exploring the map and thereby finding the food.
+
+Once the food has been discovered the bot needs to collect it by sending one or more ants to eat it. In our initial and current algorithm for deciding which ants should collect which food we use the stable marriage algorithm [GS1962] though slightly modified. Each pair of ant/food has the same preference for each other, however, we only form the pair where the distance between them is lesser than twice the view radius of the ant. This is a performance optimization. After we have found the ant/food pairs we find the path between every ant and its food and order the ant to start moving along it.
+
+Enemy ants close to the food potentially pose a problem. If they are closer to the food than our closest ant, then we might as well give up, since it will always reach the food before us given that taking the food is the optimal solution and he plays optimally. If we are equally far from the food, then we have the possibility of sending several ants. Both of these considerations have not yet been implemented, but still remain as viable options for further improvement.
+
+Furthermore, when two or more pieces of food are close to each other, it would make sense to only send a single ant to collect all of them.  
